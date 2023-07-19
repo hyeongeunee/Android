@@ -7,17 +7,6 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/hello2" />
-            <option value="$PROJECT_DIR$/step01activity" />
-            <option value="$PROJECT_DIR$/step01activity2" />
-            <option value="$PROJECT_DIR$/step01example" />
-            <option value="$PROJECT_DIR$/step02listview" />
-          </set>
-        </option>
       </GradleProjectSettings>
     </option>
   </component>

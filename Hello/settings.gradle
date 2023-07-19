@@ -16,3 +16,6 @@ rootProject.name = "Hello"
 include ':app'
 include ':hello2'
 include ':step01activity'
+include ':step01activity2'
+include ':step01example'
+include ':step02listview'

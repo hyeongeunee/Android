@@ -17,6 +17,18 @@ public class MainActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_main);
     }
 
+    // 리셋 버튼을 클릭했을 때 실행되는 메소드
+    public void resetCicked(View v) {
+        count = 0;
+        /*
+            현재 활성화 되어 있는 액티비티가 구성된 화면에서
+            textView 라는 아이디를 가지고 있는 UI 의 참조값 얻어와서
+            TextView type 의 a 라는 지역 변수에 담기
+        */
+        TextView a = findViewById(R.id.textView);
+        a.setText(Integer.toString(count));
+    }
+
     // 버튼을 클릭했을 때 실행되는 메소드
     public void clicked(View v) {
         // 필드의 값을 1증가 시키기
