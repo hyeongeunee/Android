@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -14,9 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, View.OnClickListener {
     // 필드 선언
     List<String> names;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // ListView 에 연결할 어댑터 객체
         // new ArrayAdapter<>( Context, Layout resource, 모델 )
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 names
@@ -48,6 +51,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listView.setOnItemClickListener(this);
 
         listView.setOnItemLongClickListener(this);
+
+        // 버튼에 리스너 등록
+        Button addBtn = findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(view -> {
+            // 1. EditText 에 입력한 문자열을 읽어와서
+            EditText inputName = findViewById(R.id.inputName);
+            String name = inputName.getText().toString();
+            // 2. names (모델)에 추가하고
+            names.add(name);
+            // 3. 어댑터에 namse(모델)이 변경되었다고 알린다.
+            adapter.notifyDataSetChanged();
+            // 4. 마지막 위치까지 부드럽게 스크롤하기
+            int position = adapter.getCount();
+            listView.smoothScrollToPosition(position); // 전체 아이템의 개수
+        });
     }
 
     @Override
@@ -63,13 +81,46 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // ListView 의 cell 을 오랫동안 클릭하면 호출되는 메소드
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // 알림창에 있는 버튼을 눌렀을 때 호출되는 메소드를 가지고 있는 리스너 객체
+/*
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int result) {
+                if (result == DialogInterface.BUTTON_POSITIVE) { // 긍정버튼을 눌렀을 때
+                    // i 번째 인덱스의 아이템을 제거
+                    // 1. 모델에서 제거하고
+                    names.remove(i);
+                    // 2. 모델이 변경되었다고 어댑터에 알리면 ListView 가 업데이트 된다.
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        };
+
         new AlertDialog.Builder(this)
                 .setTitle("알림")
-                .setMessage("오래 클릭했네?")
-                .setNeutralButton("확인", null)
+                .setMessage("삭제?")
+                .setPositiveButton("네", listener)
+                .setNegativeButton("아니요", listener)
                 .create()
                 .show();
-
+*/
+        new AlertDialog.Builder(this)
+                .setTitle("알림")
+                .setMessage("삭제하기")
+                .setPositiveButton("네", (a, b) -> {
+                    // 1. 모델에서 제거하고
+                    names.remove(i);
+                    // 2. 모델이 변경되었다고 어댑터에 알리면 ListView 가 업데이트 된다.
+                    adapter.notifyDataSetChanged();
+                })
+                .setNegativeButton("아니요", null)
+                .create()
+                .show();
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
