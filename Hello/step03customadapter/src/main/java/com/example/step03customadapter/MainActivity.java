@@ -1,6 +1,9 @@
 package com.example.step03customadapter;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -9,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     // 필드
     List<CountryDto> countries;
@@ -50,9 +53,27 @@ public class MainActivity extends AppCompatActivity {
                 "미국", "어쩌구.. 저쩌구.."));
         // ListView 에 연결할 어댑터 객체 생성
         BaseAdapter adapter = new CountryAdapter(this, R.layout.listview_cell, countries);
-        // ListView 의 참조값 얻어와서
+        // ListView 의 참조값 얻어와서0
         ListView listView = findViewById(R.id.listView);
         // 어댑터 연결하기
         listView.setAdapter(adapter);
+        // ListView 에 아이템 클릭 리스너 등록
+        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // DetailActivity 로 이동
+
+        // DetailActivity 로 이동할 Intent 객체 생성하기
+        Intent intent = new Intent(this, DetailActivity.class);
+
+        // 클릭한 셀에 있는 나라의 정보
+        CountryDto dto = countries.get(i);
+        // Intent 객체에 "dto" 라는 키값으로 Serializable type 인 CountryDto 객체의 참조값 전달하기
+        intent.putExtra("dto", dto);
+
+        // startActivity() 메소드 호출하면서 Intent 객체를 전달해서 액티비티 시작시키기
+        startActivity(intent);
     }
 }
