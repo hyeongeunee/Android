@@ -1,5 +1,6 @@
 package com.example.step04gallery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -31,9 +32,21 @@ public class MainActivity extends AppCompatActivity implements Util.RequestListe
         adapter = new GalleryAdapter(this, R.layout.listview_cell, list);
         // ListView 에 어댑터 연결하기
         listView.setAdapter(adapter);
+        // ListView 에 아이템 클릭 리스너
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            // 클릭한 셀의 인덱스에 해당하는 GalleryDto
+            GalleryDto dto = list.get(i);
+            // 액티비티를 이동할 Intent 객체 생성
+            Intent intent = new Intent(this, DetailActivity.class);
+            // Intent 객체에 Serializable type 담기
+            intent.putExtra("dto", dto);
+            // 액티비티 이동하기
+            startActivity(intent);
+        });
+
         // Util 클래스를 이용해서 gallery 목록 요청하기
         Util.sendGetRequest(0,
-                "http://192.168.0.38:9000/android/gallery/list",
+                AppConstants.BASE_URL + "/android/gallery/list",
                 null,
                 this);
     }
@@ -53,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements Util.RequestListe
                     dto.setNum(tmp.getInt("num"));
                     dto.setWriter(tmp.getString("writer"));
                     dto.setCaption(tmp.getString("caption"));
-                    String url = "http://192.168.0.38:9000/gallery/images/" + tmp.getString("imagePath");
+                    dto.setRegdate(tmp.getString("regdate"));
+//                    String url = "http://192.168.0.38:9000/gallery/images/" + tmp.getString("imagePath");
+                    String url = AppConstants.BASE_URL + "/gallery/images/" + tmp.getString("imagePath");
                     dto.setImagePath(url);
                     // GalleryDto 를 List 에 누적시킨다.
                     list.add(dto);

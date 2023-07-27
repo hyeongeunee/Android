@@ -1,6 +1,8 @@
 package com.example.step04gallery;
 
-public class GalleryDto {
+import java.io.Serializable;
+
+public class GalleryDto implements Serializable {
     private int num;
     private String writer;
     private String caption;
