@@ -1,11 +1,17 @@
 package com.example.step06sharedpref;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.example.step06sharedpref.databinding.ActivityMainBinding;
 
@@ -57,5 +63,39 @@ public class MainActivity extends AppCompatActivity {
             String msg = pref.getString("msg", "없음");
             binding.editText.setText(msg);
         });
+    }
+
+    // MainActivity 가 최초 활성화 될 때도 동작하고 비활성화(onStop()) 에 있다가
+    // 다시 활성화될 때도 어떠한 동작을 하고 싶으면 onStart() 메소드안에서 하는 것이 좋다
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String signature = pref.getString("signature", "");
+        Toast.makeText(this, "당신은 : " + signature, Toast.LENGTH_SHORT).show();
+    }
+
+
+    /*
+        우상단 "옵션메뉴" 를 만들고 싶음녀 onCreateOptionMenu() 메소드를 오버라이딩 해서
+        Menu 를 구성하면 된다.
+     */
+
+
+    // 옵션 메뉴를 만들기 위해서 오버라이드
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    // 옵션 메뉴 아이템을 클릭하면 호출되는 메소드 오버라이드
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // 만일 Settings 를 클릭했다면
+        if (item.getItemId() == R.id.setting) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
