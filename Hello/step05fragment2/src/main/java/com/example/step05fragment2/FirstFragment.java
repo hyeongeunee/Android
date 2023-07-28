@@ -13,6 +13,7 @@ import com.example.step05fragment2.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
 
+    // 프레그먼트가 제어할 view 를 만들어서 리턴해주어야 한다.
     private FragmentFirstBinding binding;
 
     @Override
@@ -22,6 +23,7 @@ public class FirstFragment extends Fragment {
     ) {
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
+        // 바인딩 객체가 리턴해주는 View 를 리턴해준다.
         return binding.getRoot();
 
     }
