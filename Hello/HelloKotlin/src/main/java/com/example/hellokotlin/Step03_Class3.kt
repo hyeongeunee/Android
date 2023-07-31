@@ -8,6 +8,7 @@ class Cat constructor() {
 
     // 뒤늦은 초기화가 가능한 필드 lateinit 예약어 붙여서 선언하기
     lateinit var name: String
+    // var name: String? = null
 
     constructor(name: String) : this() { // this() primary 생성자 호출하는 표현식이다.
         println("야옹이의 이름은:${name}")

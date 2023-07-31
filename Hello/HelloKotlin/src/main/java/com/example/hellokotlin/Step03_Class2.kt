@@ -12,14 +12,13 @@ class Person constructor(name: String) {
 }
 */
 
-class Member(var num: Int, var name: String, var addr: String)
-
-
 // 위를 줄이면 아래와 같다
 // var or val 을 생성자의 인자에 선언하면 전달받은 값이 자동으로 같은 이름의 필드가
 // 만들어 지면서 값이 필드에 대입된다.
 // var 은 수정이 가능한 필드가 만들어지고, val 은 수정이 불가능한 필드가 만들어진다.
 class Person(var name: String) // var / val 선언안해도 오류는 안나는데 필드가 안만들어짐
+
+data class Member(var num: Int, var name: String, var addr: String)
 
 fun main() {
     var p1 = Person("현근")
